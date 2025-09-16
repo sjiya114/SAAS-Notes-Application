@@ -1,0 +1,29 @@
+const mongoose=require('mongoose');
+const tenantSchema=new mongoose.Schema({
+  name:{
+    type:String,
+    required:true
+   },
+  email:
+  {
+    type:String,
+    required:true
+  },
+  password:
+  {
+    type:String,
+    required:true
+  },
+  plan:
+  {
+    type:String,
+    enum:["free","pro"],
+    default:"free"
+  },
+  notesCount:
+  {
+    type:Number,
+    default:0
+  }
+},{timestamps:true});
+module.exports=mongoose.model("tenants",tenantSchema);

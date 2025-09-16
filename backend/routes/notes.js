@@ -1,0 +1,11 @@
+const express=require('express');
+const { createNote, getAllUserNotes, getAllAuthorNotes, updateNode, deleteNote } = require('../controller/notesController');
+const { userIsLoggedIn } = require('../middleware/userIsLoggedIn');
+const { adminIsLoggedIn } = require('../middleware/adminIsLoggedIn');
+const router=express.Router();
+router.post("/createnote",userIsLoggedIn,createNote);
+router.get("/usernotes/",userIsLoggedIn,getAllUserNotes);
+router.get("/adminnotes/",adminIsLoggedIn,getAllAuthorNotes);
+router.put("/updatenote",userIsLoggedIn,updateNode);
+router.delete("/deletenote/:noteId",userIsLoggedIn,deleteNote);
+module.exports=router;
