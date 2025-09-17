@@ -36,23 +36,52 @@ module.exports.getAllUserNotes = async(req,res) => {
         res.json({ success: false, error: error });
     }
 }
-module.exports.getAllAuthorNotes =async() => {
+module.exports.getAllAuthorNotes =async(req,res) => {
     try {
+        console.log("step1");
        const adminId=req.admin._id;
        const admin=await tenant.findOne({_id:adminId});
+       console.log("step2");
        if(!admin)
          return res.json({success:false,message:"user not found"});
-       const notes=await notesSchema.find({authorId:adminId});
+        console.log("step3");
+       const notes=await notesSchema.find({tenantId:adminId});
+       console.log(notes);
         res.json({success:true,notes:notes});
     } catch (error) {
         res.json({ success: false, error: error });
     }
+}
+module.exports.getAllUsers=async(req,res)=>{
+     try {
+       const adminId=req.admin._id;
+       const admin=await tenant.findOne({_id:adminId});
+       if(!admin)
+         return res.json({success:false,message:"user not found"});
+       const users=await userSchema.find({tenantid:adminId});
+        res.json({success:true,users:users});
+    } catch (error) {
+        res.json({ success: false, error: error });
+    } 
 }
 module.exports.updateNode =async(req,res) => {
     try {
      const {title,content,noteId}=req.body;
      const note=await notesSchema.findByIdAndUpdate({_id:noteId},{title:title,content:content},{new:true});
      res.json({success:true,message:"updated note successfully",newnote:note});
+    } catch (error) {
+       res.json({ success: false, error: error });
+    }
+}
+module.exports.updatePlan =async(req,res) => {
+    try {
+      const adminId=req.admin._id;
+       const admin=await tenant.findOne({_id:adminId});
+       if(!admin)
+         return res.json({success:false,message:"user not found"});
+        admin.plan="pro";
+        await admin.save();
+        res.json({success:true,message:"plan upgraded successfully"});
     } catch (error) {
        res.json({ success: false, error: error });
     }

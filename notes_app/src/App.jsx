@@ -6,30 +6,33 @@ import Register from './components/Register'
 import Notes from './components/user/Notes'
 import NavbarA from './components/admin/Navbar'
 import Home from './components/Home'
-import HomePage from './components/admin/HomePage'
 import UHomePage from './components/user/HomePage'
 import { Toaster } from 'react-hot-toast';
 import { AuthContext } from './context/AuthContext'
 import DeleteNote from './components/user/DeleteNote'
 import CreateNote from './components/user/CreateNote'
 import UpdateNote from './components/user/UpdateNote'
+import AllNotes from './components/admin/AllNotes'
+import AllUsers from './components/admin/AllUsers'
 
 function App() {
   const { utoken, atoken } = useContext(AuthContext);
   return (
     <div>
       {localStorage.getItem("utoken") && <Navbar />}
+        {localStorage.getItem("atoken") && <NavbarA />}
       {/* {(!localStorage.getItem("atoken") && !localStorage.getItem("utoken")) && <Home />} */}
       <Toaster />
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/admin/homepage' element={<HomePage />} />
-        <Route path='/user/homepage' element={<UHomePage />} />
-        <Route path='/user/delete' element={<DeleteNote />} />
-        <Route path='/create' element={<CreateNote />} />
-        <Route path='/update' element={<UpdateNote />} />
+      {localStorage.getItem("utoken") &&  <Route path='/user/homepage' element={<UHomePage />} />}
+       {localStorage.getItem("utoken") && <Route path='/user/delete' element={<DeleteNote />} />}
+        {localStorage.getItem("utoken") &&<Route path='/create' element={<CreateNote />} />}
+      {localStorage.getItem("utoken") &&  <Route path='/update' element={<UpdateNote />} /> }
+       {localStorage.getItem("atoken") &&  <Route path='/admin/homepage' element={<AllNotes />} />}
+        {localStorage.getItem("atoken") &&  <Route path='/admin/allusers' element={<AllUsers />} />}
         <Route />
         {/* <Route path='/' element={<Home/>}/> */}
       </Routes>

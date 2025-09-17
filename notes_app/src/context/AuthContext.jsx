@@ -7,8 +7,10 @@ axios.defaults.baseURL=import.meta.env.VITE_PUBLIC_BASEURL;
 export const AuthContextProvider=({children})=>
 {
 const nav=useNavigate();
+const [plan,setPlan]=useState("free");
 const [utoken,setUtoken]=useState(localStorage.getItem("utoken"));
 const [atoken,setAtoken]=useState(localStorage.getItem("atoken"));
+const [count,setCount]=useState(0);
 const userLogin=async(formdata)=>
 {
 try {
@@ -45,7 +47,7 @@ try {
         toast.error("error while logging admin");
     }
 } catch (error) {
-    toast.error(error || "error while logging admin");
+    toast.error("error while logging admin");
 }
 }
 const userRegister=async(formdata)=>
@@ -93,6 +95,8 @@ try {
     if(res.data.success)
     {
       setUtoken(res.data.token);
+      setCount(res.data.count);
+      setPlan(res.data.plan);
     }
     else
     {
@@ -109,6 +113,7 @@ try {
     if(res.data.success)
     {
       setAtoken(res.data.token);
+      setPlan(res.data.plan);
     }
     else
     {

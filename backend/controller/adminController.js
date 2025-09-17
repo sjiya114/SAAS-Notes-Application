@@ -47,7 +47,7 @@ module.exports.Register=async(req,res)=>
 module.exports.authAdmin=(req,res)=>
 {
     try {
-       res.json({success:true,token:req.token}); 
+       res.json({success:true,token:req.token,plan:req.admin.plan}); 
     } catch (error) {
         res.json({success:false,error:error.message});
     }

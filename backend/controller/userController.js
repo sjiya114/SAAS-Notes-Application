@@ -1,6 +1,7 @@
 const userSchema=require('../model/user');
 const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
+const tenantSchema = require('../model/tenant');
 const generateToken=async function(email,id)
 {
    return jwt.sign({email,id},process.env.JWT_SECRET);
@@ -45,10 +46,11 @@ module.exports.Register=async(req,res)=>
      res.json({success:false,error:error});
    } 
 }
-module.exports.authUser=(req,res)=>
+module.exports.authUser=async(req,res)=>
 {
+   const tenant=await tenantSchema.findOne({_id:req.user.tenantid});
     try {
-       res.json({success:true,token:req.token}); 
+       res.json({success:true,token:req.token,plan:tenant.plan,count:tenant.notesCount}); 
     } catch (error) {
         res.json({success:false,error:error.message});
     }

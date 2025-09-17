@@ -47,7 +47,7 @@ function Login() {
         <form onSubmit={handleSubmit} className='flex flex-col space-y-1' action="">
           <div className='flex flex-row justify-between'>
             <h1 className='text-black font-bold'  >Login</h1>
-            <X color='black' />
+            <X onClick={()=>{navigate("/") }} color='black' />
           </div>
           <p className='text-gray-700 '>Please login to check notes</p>
           <label className='text-gray-700' htmlFor="">Email</label>

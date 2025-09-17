@@ -2,6 +2,8 @@ import React from 'react'
 import {X} from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 function Register() {
   const navigate=useNavigate();
   const {userRegister,adminRegister}=useContext(AuthContext);
@@ -55,7 +57,7 @@ function Register() {
       <form onSubmit={handleSubmit} className='flex flex-col space-y-1' action="">
         <div className='flex flex-row justify-between'>
          <h1 className='text-black font-bold'>Create Account</h1>
-         <X color='black'/>
+         <X onClick={()=>{navigate("/") }} color='black'/>
         </div>
         <p className='text-gray-500 '>Please signup to create notes</p>
         <label className='text-gray-700' htmlFor="">FullName</label>

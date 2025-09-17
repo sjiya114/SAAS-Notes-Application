@@ -1,9 +1,11 @@
 import React from 'react'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const {logout}=useContext(AuthContext);
+  const {logout,plan,count}=useContext(AuthContext);
+  const nav=useNavigate();
   return (
     <div className="navbar bg-blue-950/80 text-white shadow-sm">
   <div className="navbar-start">
@@ -14,7 +16,7 @@ function Navbar() {
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li><a href='/create'>Create</a></li>
+        <li ><button  disabled={plan==="free" && count>=3} onClick={()=>{plan==="free" && count>=3 && nav("/create")}}>Create</button></li>
         <li>
           <a href='/user/delete'>Delete</a>
         </li>
@@ -24,7 +26,7 @@ function Navbar() {
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-     <li><a href='/create'>Create</a></li>
+     <li><button disabled={plan==="free" && count>=3} onClick={()=>{plan==="free" && count>=3 && nav("/create")}}>Create</button></li>
        <li>
           <a href='/user/delete'>Delete</a>
         </li>

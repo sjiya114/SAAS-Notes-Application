@@ -7,6 +7,7 @@ axios.defaults.baseURL=import.meta.env.VITE_PUBLIC_BASEURL;
 export const NotesContextProvider=({children})=>
 {
 const [userNotes,setUserNotes]=useState([]);
+const [users,setUsers]=useState([]);
 const nav=useNavigate();
 const [adminNotes,setAdminNotes]=useState([]);
 const createNote=async(formdata)=>
@@ -82,12 +83,29 @@ console.log("fetched data successfully");
      toast.error(error || "error while fetching notes");
 }
 }
+const updatePlan=async()=>
+{
+try {
+    const res=await axios.post(`/notes/updateplan`);
+    if(res.data.success)
+    {
+     toast.success(res.data.message);
+    }
+    else
+    {
+         toast.error("error while fetching notes");
+    }
+} catch (error) {
+     toast.error("error while fetching notes");
+}
+}
 const getAdminNotes=async()=>
 {
 try {
     const res=await axios.get(`/notes/adminnotes`);
      if(res.data.success)
         {
+          console.log(res.data.notes);
         setAdminNotes(res.data.notes);
          console.log("fetched data successfully");
         } 
@@ -96,10 +114,28 @@ try {
              toast.error("error while fetching notes");
         }
 } catch (error) {
-     toast.error(error || "error while fetching notes");
+     toast.error( "error while fetching notes");
 }
 }
-const values={userNotes,adminNotes,createNote,deleteNote,updateNote,getAdminNotes,getUserNotes}
+const getUsers=async()=>
+{
+    try {
+    const res=await axios.get(`/notes/getusers`);
+    if(res.data.success)
+    {
+           console.log(res.data.users);
+        setUsers(res.data.users);
+console.log("fetched data successfully");
+    }
+    else
+    {
+         toast.error("error while fetching users");
+    }
+} catch (error) {
+     toast.error(error || "error while fetching users");
+} 
+}
+const values={userNotes,adminNotes,createNote,deleteNote,updateNote,getAdminNotes,getUserNotes,getUsers,users,updatePlan}
 return(
 <NotesContext.Provider value={values}>
 {children}
