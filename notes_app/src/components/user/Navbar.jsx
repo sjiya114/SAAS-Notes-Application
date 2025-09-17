@@ -2,6 +2,7 @@ import React from 'react'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function Navbar() {
   const {logout,plan,count}=useContext(AuthContext);
@@ -15,8 +16,8 @@ function Navbar() {
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li ><button  disabled={plan==="free" && count>=3} onClick={()=>{plan==="free" && count>=3 && nav("/create")}}>Create</button></li>
+        className="menu menu-sm  dropdown-content bg-blue-950/60 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        <li ><button  disabled={localStorage.getItem("plan")==="free" && count>=3} onClick={()=>{localStorage.getItem("plan")==="pro" || count<3?nav("/create"):toast.success("ask admin to update subscription to pro") ;} }>Create</button></li>
         <li>
           <a href='/user/delete'>Delete</a>
         </li>
@@ -26,7 +27,7 @@ function Navbar() {
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-     <li><button disabled={plan==="free" && count>=3} onClick={()=>{plan==="free" && count>=3 && nav("/create")}}>Create</button></li>
+     <li><button disabled={localStorage.getItem("plan")==="free" && count>=3} onClick={()=>{localStorage.getItem("plan")==="pro" || count<3?nav("/create"):toast.success("ask admin to update subscription to pro") ;console.log(localStorage.getItem("plan"));}}   >Create</button></li>
        <li>
           <a href='/user/delete'>Delete</a>
         </li>

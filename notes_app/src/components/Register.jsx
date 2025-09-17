@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { NotesContext } from '../context/NotesContext';
 function Register() {
   const navigate=useNavigate();
+  const {tenants}=useContext(NotesContext);
   const {userRegister,adminRegister}=useContext(AuthContext);
     const [data,setData]=useState({
       name:"",
@@ -26,10 +28,10 @@ function Register() {
         formdata.append("name",data.name);
         formdata.append("email",data.email);
         formdata.append("password",data.password);
-         formdata.append("tenant",data.tenant);
+         formdata.append("tenantid",data.tenant);
         if(data.role==="user")
         {
-         await userLogin(formdata);
+         await userRegister(formdata);
          setData({
           name:"",
         email: "",
@@ -40,7 +42,7 @@ function Register() {
         }
         else
         {
-         await adminLogin(formdata);
+         await adminRegister(formdata);
            setData({
           name:"",
         email: "",
@@ -72,8 +74,11 @@ function Register() {
           <option value="admin">admin</option>
         </select>
        {data.role==="user" && <select name="tenant" id="tenant" onChange={onChangeHandler}  className='border-1 border-gray-700 text-gray-700 rounded-lg py-1 px-1'  value={data.tenant}>
-          <option value="user">user</option>
-          <option value="admin">admin</option>
+         {
+          tenants.map((tenant)=>(
+              <option value={tenant._id}>{tenant.name}</option>
+          ))
+         }
         </select>}
         <button className='bg-indigo-950 mt-2 rounded-md px-2 py-2  text-white'>Create Account</button>
         <p className='text-black'   >Already have an account?<b className='cursor-pointer' onClick={()=>{navigate("/login")}}>Login here</b></p>  

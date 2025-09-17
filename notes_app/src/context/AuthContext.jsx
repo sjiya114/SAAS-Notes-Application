@@ -7,7 +7,7 @@ axios.defaults.baseURL=import.meta.env.VITE_PUBLIC_BASEURL;
 export const AuthContextProvider=({children})=>
 {
 const nav=useNavigate();
-const [plan,setPlan]=useState("free");
+const [plan,setPlan]=useState(localStorage.getItem("plan"));
 const [utoken,setUtoken]=useState(localStorage.getItem("utoken"));
 const [atoken,setAtoken]=useState(localStorage.getItem("atoken"));
 const [count,setCount]=useState(0);
@@ -18,7 +18,9 @@ try {
     if(res.data.success)
     {
        localStorage.setItem("utoken",res.data.token);
-       console.log(res.data.token);
+       console.log(res.data.token+" "+res.data.plan);
+        localStorage.setItem("plan",res.data.plan);
+        setPlan(res.data.plan);
        setUtoken(res.data.token);
        nav("/user/homepage");
        toast.success(res.data.success);
@@ -59,6 +61,8 @@ try {
      localStorage.setItem("utoken",res.data.token);
        setUtoken(res.data.token);
         nav("/user/homepage");
+        localStorage.setItem("plan",res.data.plan);
+        setPlan(res.data.plan);
      toast.success(res.data.message);
     }
     else
@@ -96,7 +100,6 @@ try {
     {
       setUtoken(res.data.token);
       setCount(res.data.count);
-      setPlan(res.data.plan);
     }
     else
     {
@@ -110,10 +113,10 @@ const authAdmin=async()=>
 {
 try {
     const res=await axios.get("/admin/auth");
+    console.log(plan);
     if(res.data.success)
     {
       setAtoken(res.data.token);
-      setPlan(res.data.plan);
     }
     else
     {
@@ -129,6 +132,7 @@ const logout=()=>
         localStorage.clear("atoken");
         setUtoken("");
         localStorage.clear("utoken");
+        localStorage.clear("token");
     nav("/");
 
 }
@@ -143,7 +147,7 @@ useEffect(()=>{
     }
     authAdmin();
     authUser();
-},[]);
+},[plan]);
 const values={utoken,setAtoken,setUtoken,atoken,userLogin,userRegister,adminLogin,adminRegister,logout}
 return(
 <AuthContext.Provider value={values}>

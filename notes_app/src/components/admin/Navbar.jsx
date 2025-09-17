@@ -16,9 +16,9 @@ function Navbar() {
       <li>
         <details>
           <summary>Information</summary>
-          <ul className="bg-base-100 rounded-t-none p-2">
-            <li><a href='/admin/homepage'>All users</a></li>
-            <li><a href='/admin/allusers'>All Notes</a></li>
+          <ul className="bg-base-100 z-50 rounded-t-none p-2">
+            <li><a href='/admin/allusers'>All users</a></li>
+            <li><a href='/admin/homepage'>All Notes</a></li>
             <li><a onClick={()=>{logout()}}>Logout</a></li>
           </ul>
         </details>

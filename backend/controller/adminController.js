@@ -52,3 +52,12 @@ module.exports.authAdmin=(req,res)=>
         res.json({success:false,error:error.message});
     }
 }
+module.exports.fetchTenants=async(req,res)=>
+{
+    try {
+       const tenants=await admin.find({});
+       res.json({success:true,tenants:tenants}); 
+    } catch (error) {
+        res.json({success:false,error:error.message});
+    }
+}

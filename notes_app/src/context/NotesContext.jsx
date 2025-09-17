@@ -2,10 +2,12 @@ import { createContext, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 export const NotesContext=createContext();
 axios.defaults.baseURL=import.meta.env.VITE_PUBLIC_BASEURL;
 export const NotesContextProvider=({children})=>
 {
+const [tenants,setTenants]=useState([]);
 const [userNotes,setUserNotes]=useState([]);
 const [users,setUsers]=useState([]);
 const nav=useNavigate();
@@ -135,7 +137,29 @@ console.log("fetched data successfully");
      toast.error(error || "error while fetching users");
 } 
 }
-const values={userNotes,adminNotes,createNote,deleteNote,updateNote,getAdminNotes,getUserNotes,getUsers,users,updatePlan}
+const fetchTenants=async()=>
+{
+ try {
+    const res=await axios.get(`/admin/tenants`);
+    if(res.data.success)
+    {
+           console.log(res.data.users);
+           setTenants(res.data.tenants);
+           console.log("fetched tenants successfully");
+    }
+    else
+    {
+         toast.error("error while fetching users");
+    }
+} catch (error) {
+     toast.error("error while fetching users");
+} 
+}
+useEffect(()=>
+{
+     fetchTenants();
+},[])
+const values={userNotes,adminNotes,createNote,deleteNote,updateNote,getAdminNotes,getUserNotes,getUsers,users,updatePlan,fetchTenants,tenants}
 return(
 <NotesContext.Provider value={values}>
 {children}

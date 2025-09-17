@@ -7,7 +7,7 @@ function Notes() {
   useEffect(()=>
   {
    getUserNotes();
-  },[userNotes])
+  },[])
   return (
     <div className="flex flex-row max-w-screen-xl mt-20 mx-auto justify-center items-center space-x-10 space-y-10 flex-wrap">
   {userNotes && userNotes.length > 0 ? (

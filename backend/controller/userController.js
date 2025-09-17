@@ -13,7 +13,7 @@ module.exports.Login=async(req,res)=>
     const {email,password}=req.body;
         if(!email || !password)
           return res.json({success:false,message:"enter all required credentials"});
-          const user=await userSchema.findOne({email:email});
+          const user=await userSchema.findOne({email:email}).populate("tenantid");
           if(!user)
            return res.json({success:false,message:"user not found"});
           const match=await bcryptjs.compare(password,user.password);
@@ -22,7 +22,7 @@ module.exports.Login=async(req,res)=>
              return res.json({success:false,message:"incorrect credentials"});
           }
           const token=await generateToken(email,user._id);
-          res.json({success:true,message:"user logged in successfully",token:token});
+          res.json({success:true,message:"user logged in successfully",token:token,plan:user.tenantid.plan});
    } catch (error) {
       res.json({success:false,error:error});
    } 
@@ -33,6 +33,7 @@ module.exports.Register=async(req,res)=>
     const { name,email,password,role,tenantid}=req.body;
       if(!name || !email || !password || !tenantid)
        return res.json({success:false,message:"enter all credentials"});
+      const tenant=await tenantSchema.findOne({_id:tenantid});
      const user=await userSchema.findOne({email:email});
       if(user)
            return res.json({success:false,message:"user already exists"});
@@ -41,16 +42,15 @@ module.exports.Register=async(req,res)=>
       const newuser=new userSchema({name:name,email:email,password:hashedPassword,role:role,tenantid:tenantid});
       await newuser.save();
          const token=await generateToken(email,newuser._id);
-      res.json({success:true,message:"user created successfully",token:token});
+      res.json({success:true,message:"user created successfully",token:token,plan:tenant.plan});
    } catch (error) {
      res.json({success:false,error:error});
    } 
 }
 module.exports.authUser=async(req,res)=>
 {
-   const tenant=await tenantSchema.findOne({_id:req.user.tenantid});
     try {
-       res.json({success:true,token:req.token,plan:tenant.plan,count:tenant.notesCount}); 
+       res.json({success:true,token:req.token,count:tenant.notesCount}); 
     } catch (error) {
         res.json({success:false,error:error.message});
     }
