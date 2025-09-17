@@ -15,7 +15,7 @@ app.use("/api/admin",admin);
 app.use("/api/user",user);
 app.use("/api/notes",notes);
 app.get("/api",(req,res)=>{
-    res.send("");
+    res.send("status:ok");
 })
 const PORT=process.env.PORT || 3000;
 // app.listen(PORT,(req,res)=>
