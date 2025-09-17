@@ -118,6 +118,20 @@ try {
     // toast.error("error while authenticating admin");
 }
 }
+const logout=()=>
+{
+    if(atoken){
+        setAtoken("");
+        localStorage.clear("atoken");
+    }
+    if(utoken)
+    {
+        setUtoken("");
+        localStorage.clear("utoken");
+    }
+    nav("/");
+
+}
 useEffect(()=>{
      if(utoken)
     {
@@ -130,7 +144,7 @@ useEffect(()=>{
     authAdmin();
     authUser();
 },[]);
-const values={utoken,setAtoken,setUtoken,atoken,userLogin,userRegister,adminLogin,adminRegister}
+const values={utoken,setAtoken,setUtoken,atoken,userLogin,userRegister,adminLogin,adminRegister,logout}
 return(
 <AuthContext.Provider value={values}>
 {children}

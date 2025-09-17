@@ -52,7 +52,7 @@ try {
     {
      toast.success(res.data.message);
      const newNotes=userNotes.filter((note)=>note._id!=noteId);
-     newNotes.push(res.data.newnote);s
+     newNotes.push(res.data.newnote);
      setUserNotes(newNotes);
     }
     else

@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext'
 
 function Navbar() {
+  const {logout}=useContext(AuthContext);
   return (
       <div className="navbar bg-base-100 shadow-sm">
   <div className="flex-1">
@@ -15,6 +17,7 @@ function Navbar() {
           <ul className="bg-base-100 rounded-t-none p-2">
             <li><a>All users</a></li>
             <li><a>All Notes</a></li>
+            <li><a onClick={()=>{logout()}}>Logout</a></li>
           </ul>
         </details>
       </li>
