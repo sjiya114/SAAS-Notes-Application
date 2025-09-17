@@ -14,7 +14,7 @@ app.use(cors());
 app.use("/api/admin",admin);
 app.use("/api/user",user);
 app.use("/api/notes",notes);
-app.get("/api",(req,res)=>{
+app.get("/",(req,res)=>{
     res.send("status:ok");
 })
 const PORT=process.env.PORT || 3000;
