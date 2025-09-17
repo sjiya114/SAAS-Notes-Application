@@ -11,11 +11,15 @@ const user=require('./routes/user');
 const notes=require('./routes/notes');
 app.use(express.json());
 app.use(cors());
-app.use("/admin",admin);
-app.use("/user",user);
-app.use("/notes",notes);
-const PORT=process.env.PORT || 3000;
-app.listen(PORT,(req,res)=>
-{
-    console.log("server started successfully on port:"+PORT);
+app.use("/api/admin",admin);
+app.use("/api/user",user);
+app.use("/api/notes",notes);
+app.get("/api",(req,res)=>{
+    res.send("");
 })
+const PORT=process.env.PORT || 3000;
+// app.listen(PORT,(req,res)=>
+// {
+//     console.log("server started successfully on port:"+PORT);
+// })
+module.exports=app;

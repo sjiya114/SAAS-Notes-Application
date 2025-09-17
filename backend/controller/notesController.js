@@ -6,17 +6,12 @@ module.exports.createNote =async(req,res) => {
         const {title, content } = req.body;
           const authorId=req.user._id;
           const tenantId=req.user.tenantid;
-          console.log(title+" "+content+" "+authorId+" "+tenantId);
-          console.log("step1");
         if(!authorId || !tenantId || !title || !content)
            return res.json({success:false,message:"please enter all fields properly"});
-         console.log("step2");
         const admin=await tenant.findOne({_id:tenantId});
         const note=new notesSchema({authorId:authorId,tenantId:tenantId,title:title,content:content});
-         console.log("step3");
          await note.save();
         admin.notesCount=admin.notesCount+1;
-         console.log("step4");
         await admin.save(); 
          res.json({success:true,message:"note created successfully",note:note});
     }
@@ -38,15 +33,11 @@ module.exports.getAllUserNotes = async(req,res) => {
 }
 module.exports.getAllAuthorNotes =async(req,res) => {
     try {
-        console.log("step1");
        const adminId=req.admin._id;
        const admin=await tenant.findOne({_id:adminId});
-       console.log("step2");
        if(!admin)
          return res.json({success:false,message:"user not found"});
-        console.log("step3");
        const notes=await notesSchema.find({tenantId:adminId});
-       console.log(notes);
         res.json({success:true,notes:notes});
     } catch (error) {
         res.json({ success: false, error: error });
