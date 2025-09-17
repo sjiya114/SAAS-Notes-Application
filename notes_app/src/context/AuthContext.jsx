@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 export const AuthContext=createContext();
-axios.defaults.baseURL="http://localhost:5500";
+axios.defaults.baseURL=import.meta.env.VITE_PUBLIC_BASEURL;
 export const AuthContextProvider=({children})=>
 {
 const nav=useNavigate();
@@ -26,7 +26,7 @@ try {
         toast.error("error while logging user");
     }
 } catch (error) {
-    toast.error(error || "error while logging user");
+    toast.error( "error while logging user");
 }
 }
 const adminLogin=async(formdata)=>
@@ -120,15 +120,10 @@ try {
 }
 const logout=()=>
 {
-    if(atoken){
         setAtoken("");
         localStorage.clear("atoken");
-    }
-    if(utoken)
-    {
         setUtoken("");
         localStorage.clear("utoken");
-    }
     nav("/");
 
 }

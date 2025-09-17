@@ -3,7 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 export const NotesContext=createContext();
-axios.defaults.baseURL="http://localhost:5500";
+axios.defaults.baseURL=import.meta.env.VITE_PUBLIC_BASEURL;
 export const NotesContextProvider=({children})=>
 {
 const [userNotes,setUserNotes]=useState([]);
