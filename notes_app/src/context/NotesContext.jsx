@@ -158,7 +158,7 @@ const fetchTenants=async()=>
 useEffect(()=>
 {
      fetchTenants();
-},[])
+},[tenants])
 const values={userNotes,adminNotes,createNote,deleteNote,updateNote,getAdminNotes,getUserNotes,getUsers,users,updatePlan,fetchTenants,tenants}
 return(
 <NotesContext.Provider value={values}>
